@@ -1,0 +1,70 @@
+.popup-card {
+    width: 350px;
+    background-color: #f7e5d8;
+    padding: 20px 35px 35px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .stats-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+  
+  .cat-sprite {
+    width: 100px;
+    height: 120px;
+    margin: 0 auto 16px;
+  }
+  
+  .timer-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .timer-text {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .primary-button {
+    background-color: #c1a692;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .input-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .task-input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+  }
+  
+  /* optional “Quit” button */
+  .secondary-button {
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
