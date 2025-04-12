@@ -1,0 +1,13 @@
+.hunger-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.hunger-container { 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}

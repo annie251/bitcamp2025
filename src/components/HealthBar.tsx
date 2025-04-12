@@ -1,7 +1,10 @@
 import React from "react";
 import heart from "../art/heart.png"; 
+import '../components/HealthBar.css';
 
-interface HealthBarProps { health: number; }
+interface HealthBarProps { health : number; }
+
+// Change to Jersey 25 font later on
 
 const HealthBar = ({ health } : HealthBarProps) => {
     const hearts = [];
@@ -9,14 +12,16 @@ const HealthBar = ({ health } : HealthBarProps) => {
     for (let i = 0; i < health; i++) {
         hearts.push(
         <span key = {i}>
-            <img src = { heart } alt = "heart"/>
+            <img className="heart-icon" src = { heart } alt = "heart"/>
         </span>);
     }
 
     return (
         <div>
-            <h3>Health</h3>
-            <img src="heart.png"/>
+            <div className="heart-container">
+            <h4>Health</h4>
+                { hearts }
+            </div>
         </div>
     );
 }
