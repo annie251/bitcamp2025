@@ -4,6 +4,9 @@ import './App.css';
 function App() {
 
   const sendMessageToCohere = async (message: string) => {
+
+    let para = document.getElementById("body");
+
     const response = await fetch('http://localhost:3001', {
       method: 'POST',
       headers: {
@@ -12,7 +15,10 @@ function App() {
       body: JSON.stringify({ message }),
     });
     const data = await response.json();
-    console.log('AI Response:', data);
+    if (para != null) {
+      para.innerText = "Response: " + data.text;
+    }
+    console.log('AI Response:', data.text);
   };
 
   const websiteURL = "https://gmail.com/";
@@ -30,6 +36,7 @@ function App() {
 
   return (
     <><button onClick={handleSubmit}>Ask AI</button>
+      <p id="body">Response: No query</p>
     </>
   );
 }
