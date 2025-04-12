@@ -1,0 +1,10 @@
+"Give the answer to the following as strictly either \"yes\", or \"no\". 
+
+Given the following website url: " + websiteURL + " 
+And given the following task/goal: " + goalOrTask + "
+
+Is the website the user is on relevant to completing the task? 
+Be lenient. 
+If it could be related, assume it is. 
+Be strict when it comes to websites that are obviously distracting such as social medias,
+but lenient with anything else that could be related.";

@@ -1,6 +1,10 @@
 {
+  "manifest_version": 3,
   "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Purrodoro",
+  "version": "1.0",
+  "description": "Cute ginger cat Pomodoro Timer",
+  "permissions": ["tabs", "activeTab", "scripting"],
   "icons": [
     {
       "src": "favicon.ico",
