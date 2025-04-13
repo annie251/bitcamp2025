@@ -37,6 +37,7 @@
 //       <p id="body">Response: No query</p>
 //     </>
 
+import { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import InputPage from './pages/InputPage';
@@ -47,6 +48,32 @@ import './App.css';
 
 // do popup size in manifest 
 function App() {
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === "CONFIRM_STAY") {
+        const stay = window.confirm(
+          `You're currently working on: "${message.goal}". Do you want to stay on ${message.url}?`
+        );
+  
+        // Optional: send response back
+        // sendResponse({ confirmed: stay });
+  
+        // Example: show a warning, or update UI
+        if (!stay) {
+          console.log("User wants to leave this site.");
+          // You could close the tab here if you wanted:
+          // chrome.tabs.remove(sender.tab.id);
+        } else {
+          console.log("User chose to stay.");
+        }
+      }
+  
+      return true; 
+    });
+  }, []);
+  
+
   return (
     <HashRouter>
     <Routes>

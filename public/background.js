@@ -1,5 +1,6 @@
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    console.log(changeInfo.url)
     if (changeInfo.url) {
         let currentGoal;
         let areWorking;
@@ -11,9 +12,15 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
           areWorking = result.areWorking;
           console.log("Are working:", result.areWorking);
       });
-        if (areWorking && currentGoal) {
-            confirm("hello world")
-        }
+        // if (areWorking === true) {
+          console.log("reached");
+          // Temporary; test functionality
+          chrome.runtime.sendMessage({
+            type: "CONFIRM_STAY",
+            url: changeInfo.url,
+            goal: currentGoal
+          });
+        // }
     }
   });
 
