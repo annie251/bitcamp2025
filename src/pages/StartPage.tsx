@@ -106,7 +106,7 @@ const StartPage = () => {
       </div>
 
       <div className="action-row">
-        <button className="secondary-button" onClick={backPage}>
+        <button className="primary-button" onClick={backPage}>
           Quit
         </button>
       </div>
