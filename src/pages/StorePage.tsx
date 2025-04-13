@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HungerBar } from "../components/HungerBar";
 import catPoke from "../art/cat_poke.png"; 
 import fish from "../art/fish.png"; 
 import "./StorePage.css";
@@ -31,14 +30,12 @@ const StorePage = () => {
     <div className="popup-card">
       <div className="top-bar">
         <span className="coins">Coins <span className="coin-amount">50 🟡</span></span>
-        <button className="secondary-button" onClick={backPage}>Back</button>
+        <button className="primary-button" onClick={backPage}>Back</button>
       </div>
 
-      <div className="store-item">
-        <button className="item-button" onClick={buyFish}>
+      <div className="store-item" onClick={buyFish}>
         <img src={fish} alt="Fish" className="item-img" />
         <span className="item-price">2 🟡</span>
-  </button>
       </div>
 
       <img src={ catPoke } alt="Cat Poke" className="cat-bottom" />

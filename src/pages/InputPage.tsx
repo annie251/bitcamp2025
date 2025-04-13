@@ -44,6 +44,9 @@ const InputPage = () => {
             disabled={!isTaskValid}>
           Start
         </button>
+        <button className="primary-button" onClick={backPage}>
+        Quit
+      </button>
       </div>
 
       <label className="input-label" htmlFor="task-input">
@@ -61,10 +64,6 @@ const InputPage = () => {
         }
       }
       />
-
-      <button className="secondary-button" onClick={backPage}>
-        Quit
-      </button>
     </div>
   );
 };
