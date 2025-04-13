@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import catPoke from "../art/cat_poke.png"; 
 import fish from "../art/fish.png"; 
+import sign from "../art/sign.png";
 import "./StorePage.css";
 import { CoinCounter } from "../components/CoinCounter";
 
@@ -53,7 +54,7 @@ const StorePage = () => {
         <img src={fish} alt="Fish" className="item-img" />
         <span className="item-price"><CoinCounter coins={2} /></span>
       </div>
-
+      
       <img src={ catPoke } alt="Cat Poke" className="cat-bottom" />
     </div>
   );

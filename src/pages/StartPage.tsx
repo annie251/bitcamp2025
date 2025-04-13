@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { HealthBar } from "../components/HealthBar";
 import { HungerBar } from "../components/HungerBar";
 import cat from "../art/cat.png";
+import sign from "../art/sign.png";
 import "./StartPage.css";
 
 const TOTAL_TIME = 25 * 60;
@@ -12,6 +13,8 @@ const StartPage = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [sessionType, setSessionType] = useState<"work" | "break">("work");
   const [totalTime, setTotalTime] = useState(TOTAL_TIME);
+  const [health, setHealth] = useState(3);
+  const [hunger, setHunger] = useState(3);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
 
@@ -51,6 +54,32 @@ const StartPage = () => {
       }
     }, 1000);
   };
+
+useEffect(() => {
+  chrome.storage.local.set({ currentPage: "start" });
+    
+  chrome.storage.local.get(["hunger", "lastHungerDate", "health"], (result) => {
+    let currentHunger = result.hunger ?? 3;
+    //const today = new Date().toISOString().split("T")[0];
+    // code above decreases fish below each below, testing! 
+    const today = Math.floor(Date.now() / 10000).toString(); 
+    const lastDate = result.lastHungerDate;
+  
+    if (lastDate !== today) {
+      currentHunger = Math.max(0, currentHunger - 1);
+      chrome.storage.local.set({
+        hunger: currentHunger,
+        lastHungerDate: today,
+      });
+    }
+    
+    setHunger(currentHunger);
+    
+    if (typeof result.health === "number") {
+      setHealth(result.health);
+    }
+  });
+}, []);
 
   useEffect(() => {
     chrome.storage.local.get(["endTime", "sessionType"], (result) => {
@@ -111,7 +140,7 @@ const StartPage = () => {
         </button>
       </div>
 
-      <img className="cat-sprite" src={cat} alt="cat" />
+      <img className="cat-sprite" src={(health === 0? sign : cat)} alt="cat" />
       
       <h3>{sessionType === "break" ? "Break time :3" : "Focus time >:|"}</h3>
 
