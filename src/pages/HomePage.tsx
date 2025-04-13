@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HealthBar } from "../components/HealthBar";
 import { HungerBar } from "../components/HungerBar";
@@ -12,6 +12,10 @@ const HomePage = () => {
     const goInput = () => {
         navigate('/input');
     }
+
+    useEffect(() => {
+      chrome.storage.local.set({ currentPage: "" }); // or "input", "home"
+    }, []);
 
   return (
     <div className="popup-card">

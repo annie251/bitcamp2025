@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HealthBar } from "../components/HealthBar";
 import { HungerBar } from "../components/HungerBar";
@@ -10,6 +10,11 @@ const InputPage = () => {
   const navigate = useNavigate();
 
 // MAYBE DELETE 
+
+  useEffect(() => {
+    chrome.storage.local.set({ currentPage: "input" }); 
+  }, []);
+
   const startPage = () => {
     chrome.runtime.sendMessage({ type: "WORKING", goal: true});
     navigate('/start');

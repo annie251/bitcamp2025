@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import InputPage from './pages/InputPage';
 import StartPage from './pages/StartPage';
+import RouteInitializer from './pages/RouteInitializer';
 
 import './App.css';
 

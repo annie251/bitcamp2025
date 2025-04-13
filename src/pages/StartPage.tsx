@@ -5,7 +5,7 @@ import { HungerBar } from "../components/HungerBar";
 import cat from "../art/cat.png";
 import "./StartPage.css";
 
-const TOTAL_TIME = .5 * 60;
+const TOTAL_TIME = 25 * 60;
 
 
 const StartPage = () => {
@@ -13,10 +13,27 @@ const StartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    chrome.storage.local.set({ currentPage: "start" }); // or "input", "home"
+  }, []);
+
+  useEffect(() => {
     const id = setInterval(() => {
-      setTimeLeft(t => (t > 0 ? t - 1 : 0));
+      setTimeLeft((t) => {
+        const newTime = t > 0 ? t - 1 : 0;
+        chrome.storage.local.set({ pomodoroTimeLeft: newTime });
+        return newTime;
+      });
     }, 1000);
+  
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    chrome.storage.local.get("pomodoroTimeLeft", (result) => {
+      if (typeof result.pomodoroTimeLeft === "number") {
+        setTimeLeft(result.pomodoroTimeLeft);
+      }
+    });
   }, []);
 
   const backPage = () => {
