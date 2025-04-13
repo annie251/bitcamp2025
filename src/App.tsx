@@ -13,13 +13,14 @@ import './App.css';
 function App() {
 
   return (
-    <HashRouter>
+    <>
+    <RouteInitializer />
     <Routes>
       <Route path = "/" element = {<HomePage />}/>
       <Route path = "/input" element = {<InputPage />}/>
       <Route path = "/start" element = {<StartPage />}/>
     </Routes>
-    </HashRouter>
+    </>
   );
 }
 

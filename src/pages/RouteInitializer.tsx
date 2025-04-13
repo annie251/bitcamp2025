@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const RouteInitializer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+
+
     chrome.storage.local.get("currentPage", (result) => {
-      navigate("/" + (result.currentPage || ""));
+      const target = "/" + (result.currentPage || "");
+      console.log("Route Initializer Target: " + target);
+      if (location.pathname !== target) {
+        navigate(target);
+      }
     });
   }, []);
 

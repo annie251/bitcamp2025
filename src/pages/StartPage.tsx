@@ -9,7 +9,7 @@ const TOTAL_TIME = 25 * 60;
 
 
 const StartPage = () => {
-  const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+  const [timeLeft, setTimeLeft] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,15 +17,29 @@ const StartPage = () => {
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setTimeLeft((t) => {
-        const newTime = t > 0 ? t - 1 : 0;
-        chrome.storage.local.set({ pomodoroTimeLeft: newTime });
-        return newTime;
-      });
-    }, 1000);
+    // Get stored end time
+    chrome.storage.local.get("endTime", (result) => {
+      let endTime = result.endTime;
   
-    return () => clearInterval(id);
+      // If there's no end time yet, create and store it
+      if (!endTime) {
+        endTime = Date.now() + TOTAL_TIME * 1000;
+        chrome.storage.local.set({ endTime });
+      }
+  
+      const intervalId = setInterval(() => {
+        const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        setTimeLeft(remaining);
+  
+        // Optional: reset endTime if countdown is finished
+        if (remaining === 0) {
+          clearInterval(intervalId);
+          // maybe open break popup here?
+        }
+      }, 1000);
+  
+      return () => clearInterval(intervalId);
+    });
   }, []);
 
   useEffect(() => {
@@ -38,6 +52,7 @@ const StartPage = () => {
 
   const backPage = () => {
     chrome.runtime.sendMessage({ type: "WORKING", goal: false});
+    chrome.storage.local.remove("endTime");
     navigate(-1); 
   };
 
