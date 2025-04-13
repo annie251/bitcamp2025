@@ -12,20 +12,14 @@ const InputPage = () => {
   const [hunger, setHunger] = useState(3); 
   const navigate = useNavigate();
 
-useEffect(() => {
-  chrome.storage.local.set({ currentPage: "input" });
-  chrome.storage.local.get(["hunger"], (result) => {
-    if (typeof result.hunger === "number") {
-      setHunger(result.hunger);
-    }
-  });
-
-  chrome.storage.local.get(["health"], (result) => {
-    if (typeof result.health === "number") {
-      setHealth(result.health);
-    }
-  });
-}, []);
+  useEffect(() => {
+    chrome.storage.local.set({ currentPage: "input" });
+  
+    chrome.storage.local.get(["hunger", "health"], (result) => {
+      if (typeof result.hunger === "number") setHunger(result.hunger);
+      if (typeof result.health === "number") setHealth(result.health);
+    });
+  }, []);
 
 const startPage = () => {
   chrome.runtime.sendMessage({ type: "WORKING", goal: true });

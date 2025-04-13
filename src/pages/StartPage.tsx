@@ -70,19 +70,41 @@ const StartPage = () => {
     }, 1000);
   };
 
-useEffect(() => {
-  chrome.storage.local.set({ currentPage: "start" });
-    
-  chrome.storage.local.get(["hunger", "lastHungerDate", "health"], (result) => {
-    let currentHunger = result.hunger ?? 3;
-    
-    setHunger(currentHunger);
-    
-    if (typeof result.health === "number") {
-      setHealth(result.health);
-    }
-  });
-}, []);
+  useEffect(() => {
+    chrome.storage.local.set({ currentPage: "start" });
+  
+    chrome.storage.local.get(["hunger", "lastHungerDate", "health", "lastHealthLossHour"], (result) => {
+      let currentHunger = result.hunger ?? 3;
+      let currentHealth = result.health ?? 3;
+  
+      const today = new Date().toISOString().split("T")[0];
+      const lastHungerDate = result.lastHungerDate;
+  
+      if (lastHungerDate !== today) {
+        currentHunger = Math.max(0, currentHunger - 1);
+        chrome.storage.local.set({
+          hunger: currentHunger,
+          lastHungerDate: today,
+        });
+      }
+  
+      if (currentHunger === 0) {
+        const nowHour = new Date().getHours().toString();
+        const lastHour = result.lastHealthLossHour;
+  
+        if (lastHour !== nowHour) {
+          currentHealth = Math.max(0, currentHealth - 1);
+          chrome.storage.local.set({
+            health: currentHealth,
+            lastHealthLossHour: nowHour,
+          });
+        }
+      }
+  
+      setHunger(currentHunger);
+      setHealth(currentHealth);
+    });
+  }, []);
 
   useEffect(() => {
     chrome.storage.local.get(["endTime", "sessionType"], (result) => {
@@ -133,8 +155,8 @@ useEffect(() => {
   return (
     <div className="popup-card">
       <div className="stats-container">
-        <HealthBar health={3} />
-        <HungerBar hunger={3} />
+        <HealthBar health={health} />
+        <HungerBar hunger={hunger} />
       </div>
 
       <div className="action-row">
