@@ -5,28 +5,46 @@ import { HungerBar } from "../components/HungerBar";
 import cat from "../art/cat.png";
 import "./StartPage.css";
 
-const TOTAL_TIME = 25 * 60;
-
+const WORK_TIME = 25 * 60;
+const BREAK_TIME = 5 * 60;
 
 const StartPage = () => {
-  const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+  const [phase, setPhase] = useState("work"); 
+  const [timeLeft, setTimeLeft] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    chrome.storage.local.set({ currentPage: "start" }); // or "input", "home"
+    chrome.storage.local.set({ currentPage: "start" });
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setTimeLeft((t) => {
-        const newTime = t > 0 ? t - 1 : 0;
-        chrome.storage.local.set({ pomodoroTimeLeft: newTime });
-        return newTime;
-      });
-    }, 1000);
-  
-    return () => clearInterval(id);
-  }, []);
+    chrome.storage.local.get("endTime", (result) => {
+      let endTime = result.endTime;
+
+      if (!endTime) {
+        const duration = phase === "work" ? WORK_TIME : BREAK_TIME;
+        endTime = Date.now() + duration * 1;
+        chrome.storage.local.set({ endTime });
+      }
+
+      const intervalId = setInterval(() => {
+        const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        setTimeLeft(remaining);
+
+        if (remaining === 0) {
+          clearInterval(intervalId);
+
+          const nextPhase = phase === "work" ? "break" : "work";
+          setPhase(nextPhase);
+
+          const newEndTime = Date.now() + (nextPhase === "work" ? WORK_TIME : BREAK_TIME) * 1000;
+          chrome.storage.local.set({ endTime: newEndTime });
+        }
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    });
+  }, [phase]);
 
   useEffect(() => {
     chrome.storage.local.get("pomodoroTimeLeft", (result) => {
@@ -37,16 +55,18 @@ const StartPage = () => {
   }, []);
 
   const backPage = () => {
-    chrome.runtime.sendMessage({ type: "WORKING", goal: false});
-    navigate(-1); 
+    chrome.runtime.sendMessage({ type: "WORKING", goal: false });
+    chrome.storage.local.remove("endTime");
+    navigate(-1);
   };
 
   const mm = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const ss = String(timeLeft % 60).padStart(2, "0");
 
-  const elapsed = TOTAL_TIME - timeLeft;
-  const fillRatio = elapsed / TOTAL_TIME;    
-  const fillColor = "#8A6451";              
+  const totalPhaseTime = phase === "work" ? WORK_TIME : BREAK_TIME;
+  const elapsed = totalPhaseTime - timeLeft;
+  const fillRatio = elapsed / totalPhaseTime;
+  const fillColor = "#8A6451";
 
   return (
     <div className="popup-card">
@@ -63,6 +83,7 @@ const StartPage = () => {
 
       <img className="cat-sprite" src={cat} alt="cat" />
 
+      <h3>{phase === "work" ? "Focus Time!" : "Break Time!"}</h3>
       <div className="timer-text">{mm}:{ss}</div>
 
       <div className="progress-bar-container">

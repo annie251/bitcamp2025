@@ -1,0 +1,26 @@
+.coin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: monospace;
+  }
+  
+  .coin-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  
+  .coin-amount {
+    font-weight: bold;
+    color: #e2b300;
+    font-size: 16px;
+  }
+  
+  .coin-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+  

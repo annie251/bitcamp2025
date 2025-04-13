@@ -1,13 +1,26 @@
-.hunger-icon {
+.hunger-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hunger-bar {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  
+  .hunger-icon {
     width: 25px;
     height: 25px;
     object-fit: contain;
-}
-
-.hunger-container { 
+  }
+  
+  .hunger-condensed {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    gap: 8px;
-}
+    gap: 6px;
+  }
+  

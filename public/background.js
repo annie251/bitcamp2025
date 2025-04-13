@@ -1,5 +1,4 @@
-
-
+/* global chrome */
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url && changeInfo.url.startsWith("http")) {
     chrome.storage.local.get(["currentGoal", "areWorking"], async (result) => {
@@ -11,18 +10,19 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           chrome.scripting.executeScript({
             target: { tabId },
             func: () => {
-              const stay = window.confirm("This site is not relavent to your goal. Close this site?");
+              const stay = window.confirm(
+                "This site is not relavent to your goal. Close this site?"
+              );
               if (stay) {
                 chrome.runtime.sendMessage({ type: "CLOSE_THIS_TAB" });
               }
-            }
+            },
           });
         }
       }
     });
   }
 });
-
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "SAVE_GOAL") {
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Save it to storage, use it in tab monitoring, etc.
     chrome.storage.local.set({ currentGoal: goal });
-  } 
+  }
   if (message.type === "WORKING") {
     const goal = message.goal;
     console.log("Updating working from popup:", goal);

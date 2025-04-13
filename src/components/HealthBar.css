@@ -1,13 +1,20 @@
-.heart-icon {
+.health-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .health-bar {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  
+  .heart-icon {
     width: 25px;
     height: 25px;
     object-fit: contain;
-}
-
-.heart-container { 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
+  }
+  

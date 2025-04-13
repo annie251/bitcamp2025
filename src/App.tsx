@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import InputPage from './pages/InputPage';
 import StartPage from './pages/StartPage';
+import StorePage from './pages/StorePage';
 import RouteInitializer from './pages/RouteInitializer';
 
 import './App.css';
@@ -18,6 +19,7 @@ function App() {
       <Route path = "/" element = {<HomePage />}/>
       <Route path = "/input" element = {<InputPage />}/>
       <Route path = "/start" element = {<StartPage />}/>
+      <Route path = "/store" element = {<StorePage />}/>
     </Routes>
     </HashRouter>
   );
