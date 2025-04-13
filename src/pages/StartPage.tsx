@@ -106,7 +106,7 @@ const StartPage = () => {
       </div>
 
       <img className="cat-sprite" src={cat} alt="cat" />
-
+      
       <h3>{sessionType === "break" ? "Break time :3" : "Focus time >:|"}</h3>
 
       <div className="timer-text">
