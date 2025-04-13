@@ -21,7 +21,7 @@ useEffect(() => {
     let currentHunger = result.hunger ?? 3;
     //const today = new Date().toISOString().split("T")[0];
     // code above decreases fish below each below, testing! 
-    const today = Math.floor(Date.now() / 1000).toString(); 
+    const today = Math.floor(Date.now() / 10000).toString(); 
     const lastDate = result.lastHungerDate;
   
     if (lastDate !== today) {

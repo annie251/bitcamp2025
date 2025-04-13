@@ -60,18 +60,6 @@ useEffect(() => {
     
   chrome.storage.local.get(["hunger", "lastHungerDate", "health"], (result) => {
     let currentHunger = result.hunger ?? 3;
-    //const today = new Date().toISOString().split("T")[0];
-    // code above decreases fish below each below, testing! 
-    const today = Math.floor(Date.now() / 10000).toString(); 
-    const lastDate = result.lastHungerDate;
-  
-    if (lastDate !== today) {
-      currentHunger = Math.max(0, currentHunger - 1);
-      chrome.storage.local.set({
-        hunger: currentHunger,
-        lastHungerDate: today,
-      });
-    }
     
     setHunger(currentHunger);
     
