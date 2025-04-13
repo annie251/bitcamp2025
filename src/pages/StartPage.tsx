@@ -4,6 +4,7 @@ import { HealthBar } from "../components/HealthBar";
 import { HungerBar } from "../components/HungerBar";
 import { CoinCounter } from "../components/CoinCounter";
 import cat from "../art/cat.png";
+import sign from "../art/sign.png";
 import "./StartPage.css";
 
 const TOTAL_TIME = 25 * 60;
@@ -13,6 +14,8 @@ const StartPage = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [sessionType, setSessionType] = useState<"work" | "break">("work");
   const [totalTime, setTotalTime] = useState(TOTAL_TIME);
+  const [health, setHealth] = useState(3);
+  const [hunger, setHunger] = useState(3);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
 
@@ -66,6 +69,20 @@ const StartPage = () => {
       }
     }, 1000);
   };
+
+useEffect(() => {
+  chrome.storage.local.set({ currentPage: "start" });
+    
+  chrome.storage.local.get(["hunger", "lastHungerDate", "health"], (result) => {
+    let currentHunger = result.hunger ?? 3;
+    
+    setHunger(currentHunger);
+    
+    if (typeof result.health === "number") {
+      setHealth(result.health);
+    }
+  });
+}, []);
 
   useEffect(() => {
     chrome.storage.local.get(["endTime", "sessionType"], (result) => {
@@ -127,7 +144,7 @@ const StartPage = () => {
         <span className="coins">Coins <span className="coin-amount"><CoinCounter coins={coins} /></span></span>
       </div>
 
-      <img className="cat-sprite" src={cat} alt="cat" />
+      <img className="cat-sprite" src={(health === 0? sign : cat)} alt="cat" />
       
       <h3>{sessionType === "break" ? "Break time :3" : "Focus time >:|"}</h3>
 
