@@ -37,10 +37,14 @@ const StorePage = () => {
       };
 
     const buyFish = () => {
-    const newHunger = hunger + 1;   
-    setHunger(newHunger);
-    chrome.storage.local.set({ hunger: newHunger });
-      };
+      if (coins >= 2) {
+        const newHunger = hunger + 1;   
+        setHunger(newHunger);
+        chrome.storage.local.set({ coins: coins - 2});
+        setCoins (coins - 2);
+        chrome.storage.local.set({ hunger: newHunger });
+      }
+    };
 
   return (
     <div className="popup-card">
