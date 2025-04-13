@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HealthBar } from "../components/HealthBar";
 import { HungerBar } from "../components/HungerBar";
+import { CoinCounter } from "../components/CoinCounter";
 import cat from "../art/cat.png";
 import "./StartPage.css";
 
@@ -14,6 +15,20 @@ const StartPage = () => {
   const [totalTime, setTotalTime] = useState(TOTAL_TIME);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
+
+  const [coins, setCoins] = useState(0);
+
+  useEffect(() => {
+    chrome.storage.local.get("coins", (result) => {
+      setCoins(result.coins || 0);
+    });
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes.coins) {
+      setCoins(changes.coins.newValue);
+    }
+  });
+}, []);
 
   useEffect(() => {
     chrome.storage.local.set({ currentPage: "start" });
@@ -109,6 +124,7 @@ const StartPage = () => {
         <button className="primary-button" onClick={backPage}>
           Quit
         </button>
+        <span className="coins">Coins <span className="coin-amount"><CoinCounter coins={coins} /></span></span>
       </div>
 
       <img className="cat-sprite" src={cat} alt="cat" />
