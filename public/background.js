@@ -1,7 +1,7 @@
 /* global chrome */
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ coins: 2 });
+  chrome.storage.local.set({ coins: 10 });
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
