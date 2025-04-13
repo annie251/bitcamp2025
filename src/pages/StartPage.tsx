@@ -7,6 +7,7 @@ import "./StartPage.css";
 
 const TOTAL_TIME = .5 * 60;
 
+
 const StartPage = () => {
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ const StartPage = () => {
     }, 1000);
     return () => clearInterval(id);
   }, []);
+
+  const backPage = () => {
+    chrome.runtime.sendMessage({ type: "WORKING", goal: false});
+    navigate(-1); 
+  };
 
   const mm = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const ss = String(timeLeft % 60).padStart(2, "0");
@@ -33,7 +39,7 @@ const StartPage = () => {
       </div>
 
       <div className="action-row">
-        <button className="secondary-button" onClick={() => navigate(-1)}>
+        <button className="secondary-button" onClick={backPage}>
           Quit
         </button>
       </div>

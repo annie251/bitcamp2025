@@ -11,10 +11,12 @@ const InputPage = () => {
 
 // MAYBE DELETE 
   const startPage = () => {
+    chrome.runtime.sendMessage({ type: "WORKING", goal: true});
     navigate('/start');
   };
 
   const backPage = () => {
+    chrome.runtime.sendMessage({ type: "WORKING", goal: false});
     navigate(-1); 
   };
 
@@ -48,7 +50,11 @@ const InputPage = () => {
         type="text"
         placeholder="What are you working on?"
         value={task}
-        onChange={(e) => setTask(e.target.value)}
+        onChange={(e) => {
+          setTask(e.target.value);
+          chrome.runtime.sendMessage({ type: "SAVE_GOAL", goal: e.target.value});
+        }
+      }
       />
 
       <button className="secondary-button" onClick={backPage}>

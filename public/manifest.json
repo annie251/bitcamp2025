@@ -3,10 +3,13 @@
   "name": "Purrodoro",
   "description": "Cute ginger cat Pomodoro Timer",
   "version": "1.0",
-  "permissions": ["tabs", "activeTab", "scripting"],
+  "permissions": ["tabs", "activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "index.html",
     "default_icon": "logo192.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "icons": {
     "16": "favicon.ico",
