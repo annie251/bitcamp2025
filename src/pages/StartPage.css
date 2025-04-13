@@ -39,6 +39,7 @@
     width: 130px;
     height: 130px;
     margin: 0 auto 16px;
+    padding-top: 0px;
   }
   
   .timer-text {
