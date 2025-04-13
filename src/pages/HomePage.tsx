@@ -8,14 +8,32 @@ import "./HomePage.css";
 
 const HomePage = () => {
     const navigate = useNavigate();
-
-    const goInput = () => {
-        navigate('/input');
-    }
+    const [hunger, setHunger] = useState(3);
+    const goInput = () => navigate('/input');
+    const goStore = () => navigate('/store');
 
     useEffect(() => {
-      chrome.storage.local.set({ currentPage: "" }); // or "input", "home"
-    }, []);
+      chrome.storage.local.set({ currentPage: "" });
+  
+      chrome.storage.local.get(["hunger", "lastHungerDate"], (result) => {
+        let currentHunger = result.hunger ?? 3;
+  
+        const today = new Date().toISOString().split("T")[0];
+        // code above decreases fish below each below, testing! 
+        //const today = Math.floor(Date.now() / 1000).toString(); 
+        const lastDate = result.lastHungerDate;
+  
+        if (lastDate !== today) {
+          currentHunger = Math.max(0, currentHunger - 1);
+          chrome.storage.local.set({
+            hunger: currentHunger,
+            lastHungerDate: today,
+          });
+        }
+
+        setHunger(currentHunger);
+    });
+  }, []);
 
   return (
     <div className="popup-card">
@@ -23,7 +41,7 @@ const HomePage = () => {
 
       <div className="stats-container">
         <HealthBar health={3} />
-        <HungerBar hunger={3} />
+        <HungerBar hunger={hunger} />
       </div>
 
       <div className="cat-meow-wrapper">
@@ -32,7 +50,7 @@ const HomePage = () => {
 
       <div className="button-row">
         <button className="primary-button" onClick={goInput}>Study</button>
-        <button className="primary-button">Stats</button>
+        <button className="primary-button" onClick={goStore}>Store</button>
       </div>
     </div>
   );

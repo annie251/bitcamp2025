@@ -17,11 +17,13 @@ const HealthBar = ({ health } : HealthBarProps) => {
     }
 
     return (
-        <div>
-            <div className="heart-container">
-            <h4>Health</h4>
-                { hearts }
-            </div>
+        <div className="health-container">
+          <h4>Health</h4>
+          <div className="health-bar">
+            {Array.from({ length: health }).map((_, i) => (
+              <img key={i} className="heart-icon" src={heart} alt="heart" />
+            ))}
+          </div>
         </div>
     );
 }
