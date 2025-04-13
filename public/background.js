@@ -1,7 +1,7 @@
 /* global chrome */
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ coins: 0 });
+  chrome.storage.local.set({ coins: 2 });
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
@@ -16,9 +16,21 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             target: { tabId },
             func: () => {
               const stay = window.confirm(
-                "This site is not relavent to your goal. Close this site?"
+                "This site is not relavent to your goal. Close this site? \nThis will decrease your cat's hunger :<"
               );
               if (stay) {
+                chrome.storage.local.get(["hunger", "health"], (result) => {
+                  const current = result.hunger || 0;
+                  if (current > 1) {
+                    chrome.storage.local.set({ hunger: current - 1 });
+                  } else {
+                    const newHealth = Math.max(result.health - 1, 0);
+                    chrome.storage.local.set({
+                      hunger: 5,
+                      health: newHealth,
+                    });
+                  }
+                });
                 chrome.runtime.sendMessage({ type: "CLOSE_THIS_TAB" });
               }
             },
