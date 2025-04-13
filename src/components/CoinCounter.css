@@ -1,12 +1,12 @@
 .coin-container {
-    display: flex;
+    display: inline;
     flex-direction: column;
     align-items: flex-start;
     font-family: monospace;
   }
   
   .coin-count {
-    display: flex;
+    display: inline;
     align-items: center;
     gap: 4px;
     margin-top: 4px;

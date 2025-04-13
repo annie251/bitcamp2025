@@ -6,8 +6,6 @@ const RouteInitializer = () => {
   const location = useLocation();
 
   useEffect(() => {
-
-
     chrome.storage.local.get("currentPage", (result) => {
       const target = "/" + (result.currentPage || "");
       console.log("Route Initializer Target: " + target);

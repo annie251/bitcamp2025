@@ -4,10 +4,26 @@ import { HungerBar } from "../components/HungerBar";
 import catPoke from "../art/cat_poke.png"; 
 import fish from "../art/fish.png"; 
 import "./StorePage.css";
+import { CoinCounter } from "../components/CoinCounter";
 
 const StorePage = () => {
     const [hunger, setHunger] = useState(3);
     const navigate = useNavigate();
+
+    const [coins, setCoins] = useState(0);
+
+    useEffect(() => {
+      chrome.storage.local.get("coins", (result) => {
+        setCoins(result.coins || 0);
+      });
+    
+      // Optional: add a listener if you want it to update dynamically while open
+      chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === "local" && changes.coins) {
+          setCoins(changes.coins.newValue);
+        }
+      });
+    }, []);
 
     useEffect(() => {
         chrome.storage.local.get("hunger", (result) => {
@@ -30,14 +46,14 @@ const StorePage = () => {
   return (
     <div className="popup-card">
       <div className="top-bar">
-        <span className="coins">Coins <span className="coin-amount">50 🟡</span></span>
+        <span className="coins">Coins <span className="coin-amount"><CoinCounter coins={coins} /></span></span>
         <button className="secondary-button" onClick={backPage}>Back</button>
       </div>
 
       <div className="store-item">
         <button className="item-button" onClick={buyFish}>
         <img src={fish} alt="Fish" className="item-img" />
-        <span className="item-price">2 🟡</span>
+        <span className="item-price"><CoinCounter coins={2} /></span>
   </button>
       </div>
 

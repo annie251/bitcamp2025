@@ -1,4 +1,9 @@
 /* global chrome */
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.set({ coins: 0 });
+});
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url && changeInfo.url.startsWith("http")) {
     chrome.storage.local.get(["currentGoal", "areWorking"], async (result) => {

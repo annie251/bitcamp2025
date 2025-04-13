@@ -37,6 +37,12 @@ const StartPage = () => {
         clearInterval(timerRef.current!);
 
         if (type === "work") {
+
+          chrome.storage.local.get("coins", (result) => {
+            const current = result.coins || 0;
+            chrome.storage.local.set({ coins: current + 1 });
+          });
+
           startTimer("break", BREAK_TIME);
         } else {
           // End of break → start next work session
