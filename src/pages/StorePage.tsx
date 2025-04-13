@@ -46,7 +46,7 @@ const StorePage = () => {
     <div className="popup-card">
       <div className="top-bar">
         <span className="coins">Coins <span className="coin-amount"><CoinCounter coins={coins} /></span></span>
-        <button className="secondary-button" onClick={backPage}>Back</button>
+        <button className="primary-button" onClick={backPage}>Back</button>
       </div>
 
       <div className="store-item" onClick={buyFish}>

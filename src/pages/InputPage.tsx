@@ -33,6 +33,10 @@ const InputPage = () => {
         <HealthBar health={3} />
         <HungerBar hunger={3} />
       </div>
+      
+      <div className="action-row">
+        <button className="primary-button" onClick={backPage}>Quit</button>
+      </div>
 
       <img className="cat-sprite" src={cat} alt="cat" />
 
@@ -44,9 +48,6 @@ const InputPage = () => {
             disabled={!isTaskValid}>
           Start
         </button>
-        <button className="primary-button" onClick={backPage}>
-        Quit
-      </button>
       </div>
 
       <label className="input-label" htmlFor="task-input">
