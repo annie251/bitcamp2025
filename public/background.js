@@ -1,4 +1,5 @@
 
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url && changeInfo.url.startsWith("http")) {
     chrome.storage.local.get(["currentGoal", "areWorking"], async (result) => {
